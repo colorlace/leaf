@@ -1,0 +1,21 @@
+name: leaf
+channels:
+  - defaults
+dependencies:
+  - python=3.8
+  - scikit-learn
+  - numpy
+  - pandas
+  - matplotlib
+  - scipy
+  - seaborn
+  - ipywidgets
+  - pip
+  - pip:
+    - imbalanced-learn
+    - termcolor
+    - shap
+    - tabulate
+    - mock
+    - lime
+    - leaf

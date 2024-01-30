@@ -1,8 +1,9 @@
 # LEAF
 A Python framework for the quantitative evaluation of eXplainable AI methods.
 
-*LEAF* requires the following Python libraries to work: 
-> numpy, pandas, lime, shap, imblearn, tabulate
+## Environment Setup
+`conda env create -f environment.yaml python=3.8` creates an env called `leaf` w/ all the necessary packages.
+`conda activate leaf` runs the environment
 
 The *LEAF* project directory contains the following files:
  

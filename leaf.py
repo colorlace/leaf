@@ -87,7 +87,7 @@ def get_LIME_classifier(lime_expl, label_x0, x0):
         # print('g.coef_', g.coef_)
         # print('g.intercept_', g.intercept_)
     else:
-        g = sklearn.linear_model.Ridge(alpha=1.0, fit_intercept=True, normalize=False)
+        g = sklearn.linear_model.Ridge(alpha=1.0, fit_intercept=True)#, normalize=False)
         g.coef_ = coef
         g.intercept_ = intercept
     return g
@@ -95,7 +95,7 @@ def get_LIME_classifier(lime_expl, label_x0, x0):
 # Build the linear classifier of a SHAP explainer
 def get_SHAP_classifier(label_x0, phi, phi0, x0, EX):
     coef = np.divide(phi[label_x0], (x0 - EX), where=(x0 - EX)!=0)
-    g = sklearn.linear_model.Ridge(alpha=1.0, fit_intercept=True, normalize=False)
+    g = sklearn.linear_model.Ridge(alpha=1.0, fit_intercept=True)#, normalize=False)
     g.coef_ = coef
     g.intercept_ = phi0[label_x0]
     return g
@@ -197,7 +197,7 @@ def hinge_loss(x):
 class LEAF:
     def __init__(self, bb_classifier, X, class_names, explanation_samples=5000):
         self.bb_classifier = bb_classifier
-        self.EX, self.StdX = np.mean(X), np.array(np.std(X, axis=0, ddof=0))
+        self.EX, self.StdX = np.mean(X, axis=0), np.array(np.std(X, axis=0, ddof=0))
         self.class_names = class_names
         self.F = X.shape[1] # number of features
         self.explanation_samples = explanation_samples
@@ -316,7 +316,11 @@ class LEAF:
                     del R_keys[key]
 
             rows = pd.DataFrame(columns=R_keys) if rows is None else rows
-            rows = rows.append({k:R.__dict__[k] for k in R_keys}, ignore_index=True)
+            #rows = rows.append({k:R.__dict__[k] for k in R_keys}, ignore_index=True)
+            new_row = pd.DataFrame([{k: R.__dict__[k] for k in R_keys}])
+
+            # Using concat instead of append
+            rows = pd.concat([rows, new_row], ignore_index=True)
             progbar.value += 1
 
         label.value += " Done."
